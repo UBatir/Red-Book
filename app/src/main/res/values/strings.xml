@@ -12,4 +12,9 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+    <string name="menu_invertebrates">Invertebrates(Безпозвоночные)</string>
+    <string name="menu_fishes">Fishes(Рыбы)</string>
+    <string name="menu_reptiles">Reptiles(Пресмыкающиеся)</string>
+    <string name="menu_birds">Birds(Птицы)</string>
+    <string name="menu_mammals">Mammals(Млекопитающие)</string>
 </resources>

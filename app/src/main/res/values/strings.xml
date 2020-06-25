@@ -17,4 +17,5 @@
     <string name="menu_reptiles">Reptiles(Пресмыкающиеся)</string>
     <string name="menu_birds">Birds(Птицы)</string>
     <string name="menu_mammals">Mammals(Млекопитающие)</string>
+    <string name="favourite">Favourite(Избранные)</string>
 </resources>

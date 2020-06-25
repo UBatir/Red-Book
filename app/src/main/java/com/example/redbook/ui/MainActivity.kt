@@ -11,8 +11,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import com.example.redbook.R
 import com.example.redbook.ui.animal.AnimalFragment
+import com.example.redbook.ui.favourite.FavouriteFragment
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         const val REPTILES=3
         const val BIRDS=4
         const val MAMMALS=5
+        const val VALUE=1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,27 +49,38 @@ class MainActivity : AppCompatActivity() {
         fragment.arguments=bundle
         supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer,fragment).commit()
         navView.setNavigationItemSelectedListener {
-            val mFragment=AnimalFragment()
+            var mFragment= Fragment()
+            val mBundle=Bundle()
             when(it.itemId){
                 R.id.nav_invertebrates ->{
-                    bundle.putInt(TYPE_ID, INVERTEBRATES)
-                    mFragment.arguments=bundle
+                    mFragment=AnimalFragment()
+                    mBundle.putInt(TYPE_ID, INVERTEBRATES)
+                    mFragment.arguments=mBundle
+
                 }
                 R.id.nav_fishes ->{
-                    bundle.putInt(TYPE_ID, FISHES)
-                    mFragment.arguments=bundle
+                    mFragment=AnimalFragment()
+                    mBundle.putInt(TYPE_ID, FISHES)
+                    mFragment.arguments=mBundle
                 }
                 R.id.nav_reptiles ->{
-                    bundle.putInt(TYPE_ID, REPTILES)
-                    mFragment.arguments=bundle
+                    mFragment=AnimalFragment()
+                    mBundle.putInt(TYPE_ID, REPTILES)
+                    mFragment.arguments=mBundle
                 }
                 R.id.nav_birds ->{
-                    bundle.putInt(TYPE_ID, BIRDS)
-                    mFragment.arguments=bundle
+                    mFragment=AnimalFragment()
+                    mBundle.putInt(TYPE_ID, BIRDS)
+                    mFragment.arguments=mBundle
                 }
                 R.id.nav_mammals ->{
-                    bundle.putInt(TYPE_ID, MAMMALS)
-                    mFragment.arguments=bundle
+                    mFragment=AnimalFragment()
+                    mBundle.putInt(TYPE_ID, MAMMALS)
+                    mFragment.arguments=mBundle
+                }
+                R.id.nav_favourite->{
+                    mFragment=FavouriteFragment()
+                    mFragment.arguments=mBundle
                 }
                 else->{return@setNavigationItemSelectedListener false}
             }

@@ -1,4 +1,4 @@
-package com.example.redbook.ui.favourite
+package com.example.redbook.ui.favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,35 +12,38 @@ import com.example.redbook.data.model.Animal
 import com.example.redbook.ui.animal.AnimalItemClickListener
 import com.example.redbook.ui.animal.AnimalListAdapter
 import com.example.redbook.ui.detail.DetailActivity
-import kotlinx.android.synthetic.main.fragment_favourite.*
+import kotlinx.android.synthetic.main.fragment_favorite.*
 
-class FavouriteFragment:Fragment(R.layout.fragment_favourite), AnimalItemClickListener{
+class FavoriteFragment:Fragment(R.layout.fragment_favorite), AnimalItemClickListener,FavoriteView{
 
     private val adapter=AnimalListAdapter(this)
     lateinit var dao:AnimalDao
     lateinit var currentAnimal: Animal
     private var animalId:Int=0
+    private lateinit var presenter: FavoritePresenter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerViewFavourite.adapter=adapter
-        recyclerViewFavourite.addItemDecoration(DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL))
+        recyclerViewFavorite.adapter=adapter
+        recyclerViewFavorite.addItemDecoration(DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL))
         dao=RedBookDatabase.getInstance(requireContext()).dao()
         currentAnimal=dao.getAnimalById(animalId)
+        presenter= FavoritePresenter(dao,this)
     }
 
     override fun onStart() {
         super.onStart()
-        setData()
+        presenter.getFavoriteAnimal()
     }
 
-    private fun setData(){
-        adapter.models=dao.getFavouriteAnimal()
-    }
 
     override fun onAnimalItemClick(id:Int) {
         val mIntent= Intent(requireActivity(), DetailActivity::class.java)
         mIntent.putExtra(DetailActivity.ANIMAL_ID,id)
         startActivity(mIntent)
+    }
+
+    override fun setData(models: List<Animal>) {
+        adapter.models=models
     }
 }

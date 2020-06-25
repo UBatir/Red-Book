@@ -17,7 +17,7 @@ interface AnimalDao {
     fun searchAnimal(type: Int,word:String):List<Animal>
 
     @Query("SELECT * FROM book WHERE isFavourite=1")
-    fun getFavouriteAnimal():List<Animal>
+    fun getFavoriteAnimal():List<Animal>
 
     @Update
     fun updateAnimal(animal: Animal)

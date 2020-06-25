@@ -1,11 +1,8 @@
 package com.example.redbook.ui
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import androidx.appcompat.app.ActionBarDrawerToggle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.example.redbook.R
 import com.example.redbook.ui.animal.AnimalFragment
-import com.example.redbook.ui.favourite.FavouriteFragment
-import kotlinx.android.synthetic.main.content_main.*
+import com.example.redbook.ui.favorite.FavoriteFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -79,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     mFragment.arguments=mBundle
                 }
                 R.id.nav_favourite->{
-                    mFragment=FavouriteFragment()
+                    mFragment=FavoriteFragment()
                     mFragment.arguments=mBundle
                 }
                 else->{return@setNavigationItemSelectedListener false}

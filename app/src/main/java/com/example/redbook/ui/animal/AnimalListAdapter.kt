@@ -9,7 +9,7 @@ import com.example.redbook.R
 import com.example.redbook.data.model.Animal
 import kotlinx.android.synthetic.main.item_animal.view.*
 
-class AnimalListAdapter(private val listener: AnimalItemClickListener):RecyclerView.Adapter<AnimalListAdapter.AnimalListViewHolder>() {
+class AnimalListAdapter:RecyclerView.Adapter<AnimalListAdapter.AnimalListViewHolder>() {
 
     inner class AnimalListViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         fun populateModel(animal: Animal){
@@ -22,9 +22,15 @@ class AnimalListAdapter(private val listener: AnimalItemClickListener):RecyclerV
                 .load(itemView.context.resources.getIdentifier(imageResName,"drawable",itemView.context.packageName))
                 .into(itemView.ivAnimal)
             itemView.setOnClickListener{
-                listener.onAnimalItemClick(animal.id)
+                onItemClick(animal.id)
             }
         }
+    }
+
+    private var onItemClick:(animalId:Int)->Unit={ }
+
+    fun setOnClickListener(a:(animalId:Int)->Unit){
+        this.onItemClick=a
     }
 
     var models:List<Animal> = listOf()

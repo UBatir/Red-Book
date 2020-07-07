@@ -17,6 +17,7 @@ class DetailActivity : AppCompatActivity(),DetailView {
     }
 
     private var animalId:Int=0
+    lateinit var currentAnimal:Animal
     lateinit var dao:AnimalDao
     private var menuItem:MenuItem?=null
     private lateinit var presenter: DetailPresenter
@@ -27,6 +28,7 @@ class DetailActivity : AppCompatActivity(),DetailView {
 
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title="Details"
 
         animalId=intent.getIntExtra(ANIMAL_ID,0)
         dao=RedBookDatabase.getInstance(this).dao()
@@ -37,23 +39,24 @@ class DetailActivity : AppCompatActivity(),DetailView {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_detail,menu)
         menuItem=menu?.findItem(R.id.item_bookmark)
-        presenter.setFavouriteStatus()
+        setFavoriteIcon()
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             android.R.id.home->finish()
-            R.id.item_bookmark->presenter.setFavourite()
+            R.id.item_bookmark->setFavorite()
         }
         return super.onOptionsItemSelected(item)
     }
 
 
-    override fun setData(animal: Animal) {
+    override fun setDetailInfo(animal: Animal) {
+        currentAnimal=animal
         Glide
             .with(this)
-            .load(resources.getIdentifier("picture${animal.id}","drawable",packageName))
+            .load(resources.getIdentifier("picture${animalId}","drawable",packageName))
             .into(ivDetail)
         tvStatusContent.text=animal.status
         tvHabitatContent.text=animal.habitat
@@ -65,7 +68,18 @@ class DetailActivity : AppCompatActivity(),DetailView {
         tvSecurityContent.text=animal.security
     }
 
-    override fun setFavouriteIcon(id: Int) {
-        menuItem?.setIcon(id)
+    private fun setFavorite(){
+        if(currentAnimal.isFavourite==null) currentAnimal.isFavourite=1
+        else currentAnimal.isFavourite=1-currentAnimal.isFavourite!!
+        setFavoriteIcon()
+        presenter.updateAnimal(currentAnimal)
+    }
+
+    private fun setFavoriteIcon() {
+        if(currentAnimal.isFavourite==1){
+            menuItem?.setIcon(R.drawable.ic_baseline_bookmark_24)
+        }else{
+            menuItem?.setIcon(R.drawable.ic_baseline_bookmark_border_24)
+        }
     }
 }

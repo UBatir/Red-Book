@@ -15,21 +15,29 @@ import com.example.redbook.ui.MainActivity
 import com.example.redbook.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.fragmet_animal.*
 
-class AnimalFragment:Fragment(R.layout.fragmet_animal),AnimalItemClickListener,AnimalView {
+class AnimalFragment:Fragment(R.layout.fragmet_animal) {
 
 
-    private val adapter=AnimalListAdapter(this)
+    private val adapter=AnimalListAdapter()
     private lateinit var dao:AnimalDao
     private lateinit var presenter: AnimalPresenter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter.setOnClickListener {id->
+            val mIntent=Intent(requireActivity(),DetailActivity::class.java)
+            mIntent.putExtra(DetailActivity.ANIMAL_ID,id)
+            startActivity(mIntent)
+        }
         recyclerView.adapter=adapter
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL))
         val type=arguments?.getInt(MainActivity.TYPE_ID)?:1
         dao=RedBookDatabase.getInstance(requireContext()).dao()
-        presenter=AnimalPresenter(dao,this)
+        presenter=AnimalPresenter(dao)
+        presenter.setFunctionBody {
+            adapter.models=it
+        }
         presenter.getAllAnimal(type)
 
         etSearch.addTextChangedListener {
@@ -37,17 +45,4 @@ class AnimalFragment:Fragment(R.layout.fragmet_animal),AnimalItemClickListener,A
             adapter.models=result
         }
     }
-
-
-    override fun onAnimalItemClick(id:Int) {
-        val mIntent=Intent(requireActivity(),DetailActivity::class.java)
-        mIntent.putExtra(DetailActivity.ANIMAL_ID,id)
-        startActivity(mIntent)
-    }
-
-    override fun setData(models: List<Animal>) {
-        adapter.models=models
-    }
-
-
 }
